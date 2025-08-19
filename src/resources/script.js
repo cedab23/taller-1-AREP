@@ -1,0 +1,52 @@
+async function register() {
+    var jockey = document.getElementById("jockey").value;
+    var horse = document.getElementById("horse").value;
+    var strat = document.getElementById("strat").value;
+
+
+    if (!jockey || !horse || !strat) {
+        alert("Se deben rellenar todos los campos");
+        return;
+    }
+
+    var data = {
+        jockey: jockey,
+        horse: horse,
+        strategy: strat
+    };
+
+    await sendRegister(data);
+
+}
+
+async function sendRegister(data) {
+    var response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+        alert("Ocurrio un error inesperado en el registro, por favor intente de nuevo");
+        return
+    }
+    var result = await response.json();
+    alert(result.result);
+
+}
+
+async function getData(){
+    var response = await fetch("http://localhost:5000/api/table", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    if (!response.ok) {
+        alert("Ocurrio un error inesperado en la tabla, por favor intente mas tarde");
+        return
+    }
+    var result = await response.json();
+}
+
